@@ -26,8 +26,7 @@ extension DateFormatter {
 
 extension String {
     func dateParsed() -> Date {
-        guard let parsedDate = DateFormatter.allNumericUSA.date(from: self) else { return Date() }
-        
+        guard let parsedDate = DateFormatter.allNumericUSA.date(from: self) else { return Date() }        
         return parsedDate
     }
 }
