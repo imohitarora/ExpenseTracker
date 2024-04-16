@@ -9,6 +9,9 @@ import SwiftUI
 import SwiftUICharts
 
 struct ContentView: View {
+    
+    @EnvironmentObject var transactionListVM: TransactionListViewModel
+    
     var demoData : [Double] = [8, 4, 5, 7, 8, 9 , 11, 3, 6]
     
     var body: some View {
@@ -18,15 +21,23 @@ struct ContentView: View {
                     Text("Overview")
                         .font(.title2)
                         .bold()
+                    let data = transactionListVM.accumulateTransactions()
+                    let totalExpense = data.last?.1 ?? 0
                     CardView {
-                        ChartLabel("$900", type: .title)
-                        LineChart()
+                        VStack {
+                            ChartLabel(totalExpense.formatted(.currency(code: "USD")), type: .title)
+                            LineChart()
+                        }
+                        .background(Color.systemBackground)
                     }
-                    .data(demoData)
+                    .data(data)
                     .chartStyle(
                         ChartStyle(backgroundColor: Color.systemBackground, foregroundColor: ColorGradient(Color.etIcon.opacity(0.4), Color.etIcon))
                     )
                     .frame(height: 300)
+                    
+                    
+                    
                     RecentTransactionList()
                 }
                 .padding()
